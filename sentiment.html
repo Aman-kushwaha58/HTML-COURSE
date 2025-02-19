@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis on Product Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: rgb(45, 37, 153);
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentiment Analysis on Product Reviews</h1>
+    <textarea id="review" placeholder="Enter your product review here..."></textarea><br>
+    <button onclick="analyzeSentiment()">Analyze Sentiment</button>
+    <p id="result"></p>
+
+    <script>
+        function analyzeSentiment() {
+            let review = document.getElementById("review").value;
+            
+            fetch('/analyze', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({review: review})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Sentiment: " + data.sentiment;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
